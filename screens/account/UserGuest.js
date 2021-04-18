@@ -22,7 +22,7 @@ const UserGuest = () => {
       <Button
         buttonStyle={styles.button}
         title="Ver tu Perfil"
-        onPress={() => navigation.navigate("Login")}
+        onPress={() => navigation.navigate("login")}
       />
     </ScrollView>
   );
@@ -48,9 +48,9 @@ const styles = StyleSheet.create({
   description: {
     textAlign: "justify",
     marginBottom: 20,
-    color: "#fadd09",
+    color: "#690b04",
   },
   button: {
-    backgroundColor: "#6b0902",
+    backgroundColor: "#e21e15",
   },
 });
