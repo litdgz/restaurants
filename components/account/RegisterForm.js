@@ -2,18 +2,75 @@ import React, { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { Input, Button, Icon } from "react-native-elements";
 
+import { validateEmail } from "../../utils/helpers";
+import {size} from 'lodash';
+
 const RegisterForm = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [formData, setFormData] = useState(defaultFormValues());
+  const [errorEmail, setErrorEmail] = useState("")
+  const [errorPassword, setErrorPassword] = useState("")
+  const [errorConfirm, setErrorConfirm] = useState("")
+
+
+  const onChange = (e, type) => {
+    setFormData({...formData, [type]: e.nativeEvent.text})
+  }
+
+  const registerUser = () => {
+    if (!validateData()) {
+      return;
+    }
+    console.log('Fuck Yeah..!!')
+  }
+
+  const validateData = () => {
+    setErrorConfirm("")
+    setErrorEmail("")
+    setErrorPassword("")
+    let isValid = true
+    
+    if(!validateEmail(formData.email)) {
+      setErrorEmail("debes de ingresar un email valido.")
+      isValid = false
+    }
+    if(size(formData.password) < 6 ) {
+      setErrorPassword("Debes ingresar una contrasenia de almenos seis caracteres")
+      isValid = false
+    }
+
+    if(size(formData.confirm) < 6 ) {
+      setErrorConfirm("Debes ingresar una confimacion de contrasenia de almenos seis caracteres")
+      isValid = false
+    }
+
+    if(formData.password !== formData.confirm) {
+      setErrorPassword("la contrasenia y la confimacion no son iguales")
+      setErrorConfirm("la contrasenia y la confimacion no son iguales")
+      isValid = false
+    }
+
+    return isValid;
+  }
 
   return (
     <View style={styles.form}>
-      <Input containerStyle={styles.input} placeholder="Email" />
+
+      <Input containerStyle={styles.input} 
+      placeholder="Email" 
+      onChange={(e) => onChange(e, "email")}
+      keyboardType="email-address" 
+      errorMessage={errorEmail}
+      defaultValue={formData.email}/>
 
       <Input
         containerStyle={styles.input}
         placeholder="Password"
         password={true}
         secureTextEntry={!showPassword}
+        onChange={(e) => onChange(e, "password")}
+        errorMessage={errorPassword}
+        defaultValue={formData.password}
         rightIcon={
           <Icon
             type="material-community"
@@ -29,6 +86,9 @@ const RegisterForm = () => {
         placeholder="Confirm your Password"
         password={true}
         secureTextEntry={!showPassword}
+        onChange={(e) => onChange(e, "confirm")}
+        errorMessage={errorConfirm}
+        defaultValue={formData.confirm}
         rightIcon={
           <Icon
             type="material-community"
@@ -43,6 +103,7 @@ const RegisterForm = () => {
         title="Register New User"
         containerStyle={styles.btnContainer}
         buttonStyle={styles.btn}
+        onPress={() => registerUser()}
       />
     </View>
   );
@@ -69,3 +130,7 @@ const styles = StyleSheet.create({
     color: "#c1c1c1",
   },
 });
+
+const defaultFormValues = () => {
+  return { email: "", password: "", confirm: "" }
+}
