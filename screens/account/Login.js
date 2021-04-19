@@ -1,23 +1,26 @@
 import React from "react";
-import { StyleSheet, Text, View, ScrollView, Image } from "react-native";
+import { StyleSheet, Text, View, Image } from "react-native";
 import { Divider } from "react-native-elements";
 import { useNavigation } from '@react-navigation/native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+
+import LoginForm from "./LoginForm";
 
 const Login = () => {
     
   return (
-    <ScrollView>
+    <KeyboardAwareScrollView>
       <Image
         source={require("../../assets/1855081.png")}
         resizeMode="contain"
         style={styles.image}
       />
       <View style={styles.container}>
-        <Text>Login Form</Text>
+        <LoginForm />
         <CreateAcount />
       </View>
       <Divider style={styles.divider} />
-    </ScrollView>
+    </KeyboardAwareScrollView>
   );
 };
 
