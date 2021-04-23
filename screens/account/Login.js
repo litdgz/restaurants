@@ -1,13 +1,12 @@
 import React from "react";
 import { StyleSheet, Text, View, Image } from "react-native";
 import { Divider } from "react-native-elements";
-import { useNavigation } from '@react-navigation/native';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import { useNavigation } from "@react-navigation/native";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
-import LoginForm from "./LoginForm";
+import LoginForm from "../../components/account/LoginForm";
 
 const Login = () => {
-    
   return (
     <KeyboardAwareScrollView>
       <Image
@@ -25,14 +24,14 @@ const Login = () => {
 };
 
 const CreateAcount = (props) => {
-    const navigation = useNavigation()
+  const navigation = useNavigation();
   return (
-    <Text style={styles.register}
-    onPress={() => navigation.navigate("register")}>
+    <Text
+      style={styles.register}
+      onPress={() => navigation.navigate("register")}
+    >
       ?Aun no tienes una cuenta?{" "}
-        <Text style={styles.btnRegister}>
-          Registrate
-        </Text>
+      <Text style={styles.btnRegister}>Registrate</Text>
     </Text>
   );
 };
@@ -53,12 +52,12 @@ const styles = StyleSheet.create({
     margin: 40,
   },
   register: {
-      marginTop: 15,
-      marginHorizontal: 10,
-      alignSelf: "center",
+    marginTop: 15,
+    marginHorizontal: 10,
+    alignSelf: "center",
   },
   btnRegister: {
-      color: "#e21e15",
-      fontWeight: "bold"
-  }
+    color: "#e21e15",
+    fontWeight: "bold",
+  },
 });

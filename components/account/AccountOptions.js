@@ -1,15 +1,85 @@
 import { map } from "lodash";
-import React from "react";
-import { StyleSheet, View } from "react-native";
+import React, { useState } from "react";
+import { StyleSheet, View, Text } from "react-native";
 import { Icon, ListItem } from "react-native-elements";
 
-const AccountOptions = ({ user, toastRef }) => {
+import Modal from "../Modal";
+import ChangeDisplayNameForm from "./ChangeDisplayNameForm";
+import ChangeEmailForm from './ChangeEmailForm';
+
+const AccountOptions = ({ user, toastRef, setReloadUser }) => {
+  const [showModal, setShowModal] = useState(false);
+  const [renderComponent, setRenderComponent] = useState(null);
+
+  const selectedComponent = (key) => {
+    switch (key) {
+      case "displayName":
+        setRenderComponent(
+          <ChangeDisplayNameForm
+            displayName={user.displayName}
+            setShowModal={setShowModal}
+            toastRef={toastRef}
+            setReloadUser={setReloadUser}
+          />
+        );
+
+        break;
+
+      case "email":
+        setRenderComponent(
+          <ChangeEmailForm 
+          email={user.email}
+            setShowModal={setShowModal}
+            toastRef={toastRef}
+            setReloadUser={setReloadUser}
+          />
+        );
+
+        break;
+
+      case "password":
+        setRenderComponent(<Text>password</Text>);
+
+        break;
+    }
+    setShowModal(true);
+  };
+
+  const generateOptions = () => {
+    return [
+      {
+        title: "Cambiar Nombres y Apellidos",
+        iconNameLeft: "account-circle",
+        iconColorLeft: "#e21e15",
+        iconNameRight: "chevron-right",
+        iconColorRight: "#e21e15",
+        onPress: () => selectedComponent("displayName"),
+      },
+      {
+        title: "Cambiar Email",
+        iconNameLeft: "at",
+        iconColorLeft: "#e21e15",
+        iconNameRight: "chevron-right",
+        iconColorRight: "#e21e15",
+        onPress: () => selectedComponent("email"),
+      },
+      {
+        title: "Cambiar Contrasenia",
+        iconNameLeft: "lock-reset",
+        iconColorLeft: "#e21e15",
+        iconNameRight: "chevron-right",
+        iconColorRight: "#e21e15",
+        onPress: () => selectedComponent("password"),
+      },
+    ];
+  };
+
   const menuOptions = generateOptions();
 
   return (
     <View>
       {map(menuOptions, (menu, index) => (
-        <ListItem key={index} style={styles.menuItem}>
+        <ListItem key={index} style={styles.menuItem} onPress={menu.onPress}>
           <Icon
             type="material-community"
             name={menu.iconNameLeft}
@@ -25,35 +95,12 @@ const AccountOptions = ({ user, toastRef }) => {
           />
         </ListItem>
       ))}
+      <Modal isVisible={showModal} setVisible={setShowModal}>
+        {renderComponent}
+      </Modal>
     </View>
   );
 };
-
-function generateOptions() {
-  return [
-    {
-      title: "Cambiar Nombres y Apellidos",
-      iconNameLeft: "account-circle",
-      iconColorLeft: "#e21e15",
-      iconNameRight: "chevron-right",
-      iconColorRight: "#e21e15",
-    },
-    {
-      title: "Cambiar Email",
-      iconNameLeft: "at",
-      iconColorLeft: "#e21e15",
-      iconNameRight: "chevron-right",
-      iconColorRight: "#e21e15",
-    },
-    {
-      title: "Cambiar Contrasenia",
-      iconNameLeft: "lock-reset",
-      iconColorLeft: "#e21e15",
-      iconNameRight: "chevron-right",
-      iconColorRight: "#e21e15",
-    },
-  ];
-}
 
 export default AccountOptions;
 

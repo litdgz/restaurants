@@ -12,14 +12,15 @@ import AccountOptions from "../../components/account/AccountOptions";
 const UserLogged = () => {
   const toastRef = useRef();
   const navigation = useNavigation();
-
   const [loading, setLoading] = useState(false);
   const [loadingText, setLoadingText] = useState("");
   const [user, setUser] = useState(null);
+  const [reloadUser, setReloadUser] = useState(false);
 
   useEffect(() => {
     setUser(getCurrentUser());
-  }, []);
+    setReloadUser(false);
+  }, [reloadUser]);
 
   return (
     <View style={styles.container}>
@@ -30,12 +31,17 @@ const UserLogged = () => {
             setLoading={setLoading}
             setLoadingText={setLoadingText}
           />
-          <AccountOptions 
-          user={user}
-          toastRef={toastRef}
+          <AccountOptions
+            user={user}
+            toastRef={toastRef}
+            setReloadUser={setReloadUser}
           />
         </View>
       )}
+      <Toast ref={toastRef} 
+      opacity={0.9}
+      position='center'
+      />
 
       <Button
         buttonStyle={styles.btnClosedSesssion}
@@ -47,7 +53,6 @@ const UserLogged = () => {
         }}
       />
 
-      <Toast ref={toastRef} opacity={0.9} />
       <Loading isVisible={loading} text={loadingText} />
     </View>
   );

@@ -5,7 +5,7 @@ import { useNavigation } from "@react-navigation/native";
 import { isEmpty } from 'lodash';
 
 import { validateEmail } from "../../utils/helpers";
-import Loading from "../../components/Loading";
+import Loading from "../Loading";
 import { loginWithEmailAndPassword } from "../../utils/actions";
 
 const LoginForm = () => {
